@@ -1,13 +1,35 @@
 \ get the largest fibonacci number < limit
+\ NOTE: this gets fibonacci number N+1 where Nth digit <= limit
 \ todo - rewrite to sum only even numbers
 : fibonacci ( limit -- n )
-    1 2
+    0 1
     BEGIN
-	swap over + \ limit 1 2 => limit 2 1 => limit 2 1 2 => limit 2 3
-	dup 2over drop > \ limit 2 3 3 => limit 2 3 3 limit 2 => limit 2 3 3 limit
+	swap over + \ limit 0 1 => limit 1 0 => limit 1 0 1 => limit 1 1
+	dup 2over drop > \ limit 1 1 => limit 1 1 1 limit 1 => limit 1 1 1 limit
     UNTIL
     nip nip \ snip off the the limit and the 2nd to last fib number
 ;
 
-1000 fibonacci . cr
+
+\ get the sum of fibonacci terms which are even
+: evenFibonacci ( limit -- nsum )
+    0 0 1
+    BEGIN	
+	swap over
+	+ dup
+	2 mod 0 =
+	IF
+	    rot over
+	    + -rot
+	THEN
+
+	2over drop
+	over
+	<
+    UNTIL
+    drop drop nip
+;
+
+10 fibonacci . cr
+4000000 evenFibonacci . cr
 bye
