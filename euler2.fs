@@ -13,18 +13,23 @@
 
 \ get the sum of fibonacci terms which are even
 : evenFibonacci ( limit -- nsum )
-    0 0 1
-    BEGIN	
+    0 0 1 \ this is our nsum n1 n2
+    BEGIN
+	\ replace n1->n2 and n2->n3
 	swap over
-	+ dup
-	2 mod 0 =
+	+
+
+	\ check if n3 is even
+	\ nsum := nsum + n3
+	dup 2 mod 0 =
 	IF
 	    rot over
 	    + -rot
 	THEN
 
-	2over drop
-	over
+	\ fetch limit from the bottom of the stack
+	\ compare with n3
+	2over drop over
 	<
     UNTIL
     drop drop nip
